@@ -33,7 +33,7 @@ namespace backprop_tools::rl::components::off_policy_runner{
             set(runner->episode_step, 0, env_i, 0);
             set(runner->episode_return, 0, env_i, 0);
         }
-        auto observation = view<DEVICE, typename decltype(runner->buffers.observations)::SPEC, 1, ENVIRONMENT::OBSERVATION_DIM>(device, runner->buffers.observations, env_i, 0);
+        auto observation = view(device, runner->buffers.observations, matrix::ViewSpec<1, ENVIRONMENT::OBSERVATION_DIM>{}, env_i, 0);
         observe(device, env, state, observation);
     }
     template<typename DEVICE, typename SPEC, typename RNG>

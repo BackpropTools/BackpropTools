@@ -87,4 +87,5 @@ namespace backprop_tools{
         return false; //random::uniform_real_distribution(typename DEVICE::SPEC::RANDOM(), (T)0, (T)1, rng) > 0.9;
     }
 }
+#include <backprop_tools/rl/environments/operations_generic.h>
 #endif

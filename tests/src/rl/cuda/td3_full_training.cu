@@ -1,15 +1,18 @@
-// ------------ Groups 1 ------------
-#include <backprop_tools/operations/cuda/group_1.h>
-#include <backprop_tools/operations/cpu_mkl/group_1.h>
-#include <backprop_tools/operations/cpu_tensorboard/group_1.h>
-// ------------ Groups 2 ------------
-#include <backprop_tools/operations/cuda/group_2.h>
-#include <backprop_tools/operations/cpu_mkl/group_2.h>
-#include <backprop_tools/operations/cpu_tensorboard/group_2.h>
-// ------------ Groups 3 ------------
-#include <backprop_tools/operations/cuda/group_3.h>
-#include <backprop_tools/operations/cpu_mkl/group_3.h>
-#include <backprop_tools/operations/cpu_tensorboard/group_3.h>
+//// ------------ Groups 1 ------------
+//#include <backprop_tools/operations/cuda/group_1.h>
+//#include <backprop_tools/operations/cpu_mkl/group_1.h>
+//#include <backprop_tools/operations/cpu_tensorboard/group_1.h>
+//// ------------ Groups 2 ------------
+//#include <backprop_tools/operations/cuda/group_2.h>
+//#include <backprop_tools/operations/cpu_mkl/group_2.h>
+//#include <backprop_tools/operations/cpu_tensorboard/group_2.h>
+//// ------------ Groups 3 ------------
+//#include <backprop_tools/operations/cuda/group_3.h>
+//#include <backprop_tools/operations/cpu_mkl/group_3.h>
+//#include <backprop_tools/operations/cpu_tensorboard/group_3.h>
+
+#define BACKPROP_TOOLS_OPERATIONS_CPU_MUX_INCLUDE_CUDA
+#include <backprop_tools/operations/cpu_mux.h>
 
 namespace bpt = backprop_tools;
 
@@ -65,6 +68,7 @@ TEST(BACKPROP_TOOLS_RL_CUDA_TD3, TEST_FULL_TRAINING) {
     rlp::ACTOR_NETWORK_TYPE::Buffers<rlp::OFF_POLICY_RUNNER_SPEC::N_ENVIRONMENTS> actor_buffers_eval;
     rlp::ACTOR_NETWORK_TYPE::Buffers<rlp::OFF_POLICY_RUNNER_SPEC::N_ENVIRONMENTS> actor_buffers_eval_init;
 
+    bpt::init(device_init);
     bpt::init(device);
     device_init.logger = &logger;
     bpt::construct(device_init, device_init.logger);
@@ -179,7 +183,7 @@ TEST(BACKPROP_TOOLS_RL_CUDA_TD3, TEST_FULL_TRAINING) {
 //                    std::cout << "update: " << duration_microseconds << "us" << std::endl;
             }
         }
-        if(step_i % 20000 == 0){
+        if(step_i % 1000 == 0){
             bpt::copy(device_init, device, actor_critic_init, actor_critic);
             auto results = bpt::evaluate(device_init, envs[0], ui, actor_critic_init.actor, bpt::rl::utils::evaluation::Specification<1, rlp::ENVIRONMENT_STEP_LIMIT>(), rng_init, true);
             std::cout << "Mean return: " << results.mean << std::endl;

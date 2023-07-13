@@ -126,4 +126,5 @@ namespace backprop_tools{
         return env.last_terminated;
     }
 }
+#include <backprop_tools/rl/environments/operations_generic.h>
 #endif
