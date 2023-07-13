@@ -163,6 +163,11 @@ namespace backprop_tools::math {
         }
     }
 
+    template<typename T>
+    BACKPROP_TOOLS_FUNCTION_PLACEMENT T nan(const devices::math::CUDA&){
+        return std::numeric_limits<T>::quiet_NaN();
+    }
+
 
 //    // CUDA fast
 //
