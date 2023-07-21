@@ -1,6 +1,6 @@
-#include <backprop_tools/operations/cpu.h>
+#include <backprop_tools/operations/arm.h>
 
-#include <backprop_tools/nn/operations_generic.h>
+#include <backprop_tools/nn/layers/dense/operations_arm/opt.h>
 
 #include <backprop_tools/rl/environments/operations_generic.h>
 #include <backprop_tools/nn_models/operations_generic.h>
@@ -10,21 +10,23 @@
 #ifndef BACKPROP_TOOLS_BENCHMARK
 #include <backprop_tools/rl/utils/evaluation.h>
 #include <chrono>
+#include <iostream>
 #endif
 
 
 
 struct TrainingConfig{
-    using DEV_SPEC = bpt::devices::DefaultCPUSpecification;
-    using DEVICE = bpt::devices::CPU<DEV_SPEC>;
+//    using DEV_SPEC = bpt::devices::DefaultCPUSpecification;
+//    using DEVICE = bpt::devices::CPU<DEV_SPEC>;
+    using DEVICE = bpt::devices::DefaultARM;
     using DTYPE = float;
 
     typedef bpt::rl::environments::pendulum::Specification<DTYPE, DEVICE::index_t, bpt::rl::environments::pendulum::DefaultParameters<DTYPE>> PENDULUM_SPEC;
     typedef bpt::rl::environments::Pendulum<PENDULUM_SPEC> ENVIRONMENT;
 
-    struct DEVICE_SPEC: bpt::devices::DefaultCPUSpecification {
-        using LOGGING = bpt::devices::logging::CPU;
-    };
+//    struct DEVICE_SPEC: bpt::devices::DefaultCPUSpecification {
+//        using LOGGING = bpt::devices::logging::CPU;
+//    };
     struct TD3PendulumParameters: bpt::rl::algorithms::td3::DefaultParameters<DTYPE, DEVICE::index_t>{
         constexpr static typename DEVICE::index_t CRITIC_BATCH_SIZE = 100;
         constexpr static typename DEVICE::index_t ACTOR_BATCH_SIZE = 100;
